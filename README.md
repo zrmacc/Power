@@ -1,0 +1,45 @@
+### Linear Regression
+
+Consider the linear model: $Y = X\beta_{X} + Z\beta_{Z} + \epsilon$. Suppose each of X, Y, and Z has been centered to have mean zero. The function `PowerLinReg` determines the power to reject $H_{0}:\beta_{X} = 0$ via the standard Wald test. For example:
+
+
+```r
+library(Power)
+PowerLinReg(
+  beta_x = 1,
+  cov_xz = 0.5,
+  n = 10,
+  t1e = 0.05,
+  var_resid = 1,
+  var_x = 1,
+  var_z = 1
+)
+```
+
+```
+## [1] 0.781908
+```
+
+Here `beta_x` is the true coefficient for X, `cov_xz` is the covariance between X and Z, `n` is the sample size, `t1e` is the type I error, `var_resid` is the residual variance of $Y|(X,Z)$, i.e. the variance of $\epsilon$, `var_x` and `var_y` are the variance of X and Y. Note that when either X or Z is a vector, rather than a scalar, `cov_xz`, `var_x`, and `var_z` should be supplied as matrices.
+
+To determine the necessary sample size for a target power:
+
+```r
+SampleSizeLinReg(
+  beta_x = 1,
+  cov_xz = 0.5,
+  max_n = 100,
+  power = 0.90,
+  t1e = 0.05,
+  var_resid = 1,
+  var_x = 1,
+  var_z = 1
+)
+```
+
+```
+##    n     power
+## 1 15 0.9183621
+```
+
+Here `max_n` is an upper bound on the sample size, and `power` is the target power.

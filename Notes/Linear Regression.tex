@@ -1,0 +1,82 @@
+% Preamble
+\input{/Users/zmccaw/Dropbox/Tex/Preamble}
+
+\lhead{Updated: December 2020}
+\chead{Power Calculations}
+\rhead{Zachary McCaw}
+\lfoot{Created: December 2020}
+
+\begin{document}
+
+\section{Setting}
+Consider the model:
+\begin{align*}
+Y_{i} = X_{i}\beta_{X} + Z_{i}\beta_{Z} + \epsilon_{i}
+\end{align*}
+where $\{(Y_{i}, X_{i}, Z_{i})\}$ are IID, and $\Vbb(\epsilon) = \Vbb(Y|X,Z) = \sigma^2$. Suppose $X, Y, Z$ have each been centered to have mean zero. Interest lies in testing the hypothesis $H_{0}:\beta_{X} = 0$. Here we derive the power of the corresponding Wald test. 
+
+\section{Model Components}
+Let $W_{i} = (X_{i}\ Z_{i})$ and $\beta = (\beta_{X}, \beta_{Z})$ such that:
+\begin{align*}
+Y_{i} = W_{i}\beta + \epsilon_{i}.
+\end{align*}
+
+The score equation for $\bm{\beta}$ is:
+\begin{align*}
+\mathcal{U}_{\beta} = \frac{1}{\sigma^2}\bm{W}'(\bm{y}-\bm{W}\bm{\beta})
+\end{align*}
+
+The information matrix for $\bm{\beta}$ is:
+\begin{align*}
+\mathcal{I}_{\beta\beta'} = \frac{1}{\sigma^2}\bm{W}'\bm{W} = \frac{1}{\sigma^2}\sum_{i=1}^{n}W_{i} \otimes W_{i}.
+\end{align*}
+
+Since $X,Z$ have mean zero:
+\begin{align*}
+\frac{1}{n}\mathcal{I}_{\beta\beta'} \cip \frac{1}{\sigma^2}\Vbb(W_{i}) = \frac{1}{\sigma^2}\left(
+\begin{array}{c c}
+\Vbb(X_{i}) & \Cbb(X_{i}, Z_{i}) \\
+\Cbb(Z_{i}, X_{i}) & \Vbb(Z_{i})
+\end{array}
+\right) \equiv i_{\beta\beta'}.
+\end{align*}
+
+Here $i_{\beta\beta'}$ denotes the probability limit of $n^{-1}\mathcal{I}_{\beta\beta'}$. The efficient information for $\beta_{X}$ is:
+\begin{align*}
+i_{X|Zs} = \frac{1}{\sigma^2}\big\{\Vbb(X_{i}) - \Cbb(X_{i}, Z_{i})\Vbb(Z_{i})^{-1}\Cbb(Z_{i}, X_{i})\big\}.
+\end{align*}
+
+\section{Wald Test}
+The Wald test of $H_{0}:\beta_{X} = 0$ is:
+\begin{align*}
+T_{W} = n\cdot \hat{\beta}_{X}'i_{X|Z}\hat{\beta}_{X}.
+\end{align*}
+
+The expected value of the Wald statistic is:
+\begin{align*}
+\Ebb(T_{W}) &= n\cdot\Ebb\big\{\tr(\hat{\beta}_{X}'i_{X|Z}\hat{\beta}_{X})\big\} = n\cdot \tr\big\{i_{X|Z}\Ebb(\hat{\beta}_{X} \otimes \hat{\beta}_{X})\big\} \\
+&= n\cdot\tr\big\{i_{X|Z}(n^{-1}i_{X|Z}^{-1} + \beta_{X} \otimes \beta_{X})\big\} = \dim(\beta_{X}) + n\cdot\beta_{X}'i_{X|Z}\beta_{X}.
+\end{align*}
+
+Observe that under $H_{0}:\beta_{X} = 0$, the expectation of $T_{W}$ is $\dim(\beta_{X})$, which is the number of degrees of freedom. When $\beta_{X} \neq 0$, the expectation is increased by $n\cdot \beta_{X}'i_{X|Z}\beta_{X}$, which is the non-centrality parameter.
+
+\section{Power}
+The power of the Wald test at type I error level $\alpha$ is:
+\begin{align*}
+\gamma_{\alpha}(n) = \Pbb\big\{\chi_{k}^{2}(\Delta) > \chi_{k,1-\alpha}^{2}(0)\big\},
+\end{align*}
+where:
+\begin{align*}
+\Delta = n\cdot\beta_{X}'i_{X|Z}\beta_{X} = n\cdot\frac{1}{\sigma^2}\big\{\Vbb(X_{i}) - \Cbb(X_{i}, Z_{i})\Vbb(Z_{i})^{-1}\Cbb(Z_{i}, X_{i})\big\}.
+\end{align*}
+
+The sample size needed to obtain a specified power $\pi$ is:
+\begin{align*}
+\min\big\{n : \gamma_{\alpha}(n) \geq \pi\big\}.
+\end{align*}
+
+
+
+
+
+\end{document}
