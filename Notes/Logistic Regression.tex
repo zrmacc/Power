@@ -1,0 +1,101 @@
+% Preamble
+\input{/Users/zmccaw/Dropbox/Tex/Preamble}
+
+\lhead{Updated: Jan 2022}
+\chead{Power Calculations}
+\rhead{Zachary McCaw}
+\lfoot{Created: Jan 2022}
+
+\begin{document}
+
+\section{Setting}
+Consider the logistic regression model:
+\begin{align*}
+\ln\left\{\frac{\pi_{i}}{1 - \pi_{i}}\right\} = \beta_{0} + \beta_{X}X_{i} + \beta_{Z}Z_{i},
+\end{align*}
+where $\pi_{i} = \Pbb(Y_{i} = 1 | X_{i}, Z_{i}) = \Ebb(Y_{i} | X_{i}, Z_{i})$. Interest lies in testing $H_{0}: \beta_{X} = 0$. 
+
+\section{Model Components}
+Let $W_{i} = (1, X_{i}, Z_{i})'$ and $\beta = (\beta_{0}, \beta_{X}, \beta_{Z})'$ such that:
+\begin{align*}
+\ln\left\{\frac{\pi_{i}}{1 - \pi_{i}}\right\} = W_{i}'\beta
+\end{align*}
+
+The log-likelihood for $\beta$ is:
+\begin{align*}
+\ell(\beta) &= \sum_{i=1}^{n}Y_{i} \ln \pi_{i} + (1 - Y_{i}) \ln (1 - \pi_{i}) \\
+&= \sum_{i=1}^{n} Y_{i} e^{W_{i}'\beta} - \ln(1 + e^{W_{i}'\beta}).
+\end{align*}
+
+The score equation for $\beta$ is:
+\begin{align*}
+\mathcal{U}_{\beta} = \sum_{i=1}^{n}(Y_{i} - \pi_{i})W_{i}.
+\end{align*}
+
+The information matrix is:
+\begin{align*}
+\mathcal{I}_{\beta\beta'} = \sum_{i=1}^{n}W_{i} \otimes W_{i} \cdot \pi_{i}(1 - \pi_{i}),
+\end{align*}
+where:
+\begin{align*}
+W_{i} \otimes W_{i} = \left(
+\begin{array}{c c c}
+1 & X_{i} & Z_{i} \\
+X_{i} & X_{i}^2 & X_{i}Z_{i} \\
+Z_{i} & Z_{i}X_{i} & Z_{i}^{2}
+\end{array}
+\right).
+\end{align*}
+
+The information matrix converges in probability as:
+\begin{align*}
+\frac{1}{n} \mathcal{I}_{\beta\beta'} \cip i_{\beta\beta'} \equiv \Ebb\big\{W_{i} \otimes W_{i} \cdot \pi_{i}(1 - \pi_{i})\big\}
+\end{align*}
+
+Let $\hat{\beta}$ denote the MLE of $\beta$. Asymptotically:
+\begin{align*}
+\sqrt{n}\big(\hat{\beta} - \beta \big) \rightsquigarrow N(0, i_{\beta\beta'}^{-1}). 
+\end{align*}
+
+\section{Wald Test}
+
+Consider evaluating $H_{0}: \beta_{X} = 0$. To obtain an expression for the asymptotic variance of $\hat{\beta}_{X}$, write $\beta = (\beta_{X}, \gamma)$ where $\gamma = (\beta_{0}, \beta_{Z})$. In block matrix notation, the information for $(\beta_{X}, \gamma)$ is:
+\begin{align*}
+i_{(\beta_{X}, \gamma)(\beta_{X}, \gamma)'} = \left(
+\begin{array}{c c}
+i_{\beta_{X}\beta_{X}'} & i_{\beta_{X}\gamma'} \\
+i_{\gamma\beta_{X}'} & i_{\gamma\gamma'}
+\end{array}
+\right),
+\end{align*}
+where:
+\begin{gather*}
+i_{\beta_{X}\beta_{X}'} = \Ebb\big\{X_{i}^{2} \cdot \pi_{i} (1 - \pi_{i}) \big\}, \\
+i_{\beta_{X}\gamma'} = \Ebb\left\{
+\big(
+\begin{array}{c c}
+X_{i} & X_{i}Z_{i}
+\end{array} \big)
+\cdot \pi_{i}(1 - \pi_{i}) \right\}, \\
+i_{\gamma\gamma'} = \Ebb\left\{
+\left(
+\begin{array}{c c}
+1 & Z_{i} \\
+Z_{i} & Z_{i}^{2}
+\end{array}
+\right) \cdot \pi_{i} (1 - \pi_{i})
+\right\}
+\end{gather*}
+
+Using block inversion, the asymptotic variance of $\beta_{X}$ is:
+\begin{align*}
+\Vbb(\hat{\beta}_{X}) = \big(i_{\beta_{X}\beta_{X}'} - i_{\beta_{X}\gamma'} i_{\gamma\gamma'}^{-1}i_{\gamma\beta_{X}'}\big)^{-1}.
+\end{align*}
+
+The Wald test of $H_{0}: \beta_{X} = 0$:
+\begin{align*}
+T_{W} = n \cdot \hat{\beta}_{X}'(i_{\beta_{X}\beta_{X}'} - i_{\beta_{X}\gamma'} i_{\gamma\gamma'}^{-1}i_{\gamma\beta_{X}'}\big)\hat{\beta}_{X}.
+\end{align*}
+
+
+\end{document}
