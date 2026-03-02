@@ -1,6 +1,8 @@
 
 ## Power Calculations for Regression
 
+[![R-CMD-check](https://github.com/zrmacc/Power/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/zrmacc/Power/actions/workflows/R-CMD-check.yaml)
+
 Zachary R. McCaw <br> Updated: 2026-03-02
 
 ### Linear regression
