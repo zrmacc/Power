@@ -12,15 +12,17 @@ SampleSizeLinReg(
   t1e = 0.05,
   var_resid,
   var_x,
-  var_z
+  var_z,
+  min_n = 1,
+  tol = .Machine$double.eps^0.25
 )
 }
 \arguments{
 \item{beta_x}{True regression coefficient for X, vector.}
 
-\item{cov_xz}{Covariance of of X and Z, matrix.}
+\item{cov_xz}{Covariance of X and Z, matrix.}
 
-\item{max_n}{Maximum allowable sample size.}
+\item{max_n}{Maximum allowable sample size (upper bound for search).}
 
 \item{power}{Target power.}
 
@@ -31,11 +33,27 @@ SampleSizeLinReg(
 \item{var_x}{Variance of X, matrix.}
 
 \item{var_z}{Variance of Z, matrix.}
+
+\item{min_n}{Minimum allowable sample size (lower bound for search).
+Default 1.}
+
+\item{tol}{Numeric tolerance passed to \code{\link[stats]{uniroot}} for
+the root-finding search. Default matches \code{uniroot}'s default
+(\code{.Machine$double.eps^0.25}).}
 }
 \value{
-Data.frame with final sampe size and power.
+Data.frame with columns \code{n} (sample size) and \code{power}
+(achieved power at that n).
 }
 \description{
 Sample size for testing \eqn{H_{0}:\beta_{X} = 0} in the linear model
-\eqn{Y ~ X + Z}. All variables (X, Y, Z) are assumed centered.
+\eqn{Y \sim X + Z}. All variables (X, Y, Z) are assumed centered.
+}
+\details{
+Uses \code{\link[stats]{uniroot}} to find the smallest integer
+sample size in \code{[min_n, max_n]} at which power reaches the target.
+Stops with an error if target power is not attainable at \code{max_n}.
+}
+\seealso{
+\code{\link{PowerLinReg}} for power at a given sample size.
 }

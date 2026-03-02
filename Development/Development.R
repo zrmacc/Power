@@ -17,12 +17,12 @@ PowerLinReg(
 )
 
 SampleSizeLinReg(
-  beta_x = beta_x,
-  cov_xz = cov_xz,
+  beta_x = bx,
+  cov_xz = rho,
   max_n = 1000,
-  t1e = 0.05,
   power = 0.80,
-  var_resid = var_resid,
-  var_x = var_x,
-  var_z = var_z
+  t1e = 0.05,
+  var_resid = 1 - pve,
+  var_x = 1,
+  var_z = 1
 )

@@ -13,5 +13,5 @@ matInv(A)
 Numeric matrix.
 }
 \description{
-Calcualtes \eqn{A^{-1}}.
+Calculates \eqn{A^{-1}}.
 }

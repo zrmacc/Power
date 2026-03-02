@@ -29,35 +29,35 @@ matIP <- function(A, B) {
 }
 
 #' Quadratic Form
-#' 
+#'
 #' Calculates the quadratic form \eqn{X'AX}.
-#' 
+#'
 #' @param X Numeric matrix.
 #' @param A Numeric matrix.
 #' @return Numeric matrix.
-#' @export 
+#' @export
 matQF <- function(X, A) {
     .Call(`_Power_matQF`, X, A)
 }
 
 #' Matrix Inverse
-#' 
-#' Calcualtes \eqn{A^{-1}}.
+#'
+#' Calculates \eqn{A^{-1}}.
 #'
 #' @param A Numeric matrix.
-#' @return Numeric matrix. 
+#' @return Numeric matrix.
 matInv <- function(A) {
     .Call(`_Power_matInv`, A)
 }
 
 #' Schur complement
 #'
-#' Calculates the efficient information \eqn{I_{bb}-I_{ba}I_{aa}^{-1}I_{ab}}. 
+#' Calculates the efficient information \eqn{I_{bb}-I_{ba}I_{aa}^{-1}I_{ab}}.
 #'
 #' @param Ibb Information of target parameter
 #' @param Iaa Information of nuisance parameter
 #' @param Iba Cross information between target and nuisance parameters
-#' @return Numeric matrix. 
+#' @return Numeric matrix.
 SchurC <- function(Ibb, Iaa, Iba) {
     .Call(`_Power_SchurC`, Ibb, Iaa, Iba)
 }

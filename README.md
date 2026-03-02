@@ -1,9 +1,21 @@
-### Linear Regression
 
-Consider the linear model: $Y = X\beta_{X} + Z\beta_{Z} + \epsilon$. Suppose each of X, Y, and Z has been centered to have mean zero. The function `PowerLinReg` determines the power to reject $H_{0}:\beta_{X} = 0$ via the standard Wald test. For example:
+## Power Calculations for Regression
 
+Zachary R. McCaw <br> Updated: 2026-03-02
 
-```r
+### Linear regression
+
+Consider the linear model $Y = X\beta_{X} + Z\beta_{Z} + \epsilon$, with
+X, Y, and Z centered. The function `PowerLinReg` computes the power to
+reject $H_{0}:\beta_{X} = 0$ using the usual Wald test.
+
+**Arguments:** `beta_x` (true coefficient for X), `cov_xz` (covariance
+of X and Z), `n` (sample size), `t1e` (type I error), `var_resid`
+(residual variance of $Y \mid (X,Z)$), `var_x` and `var_z` (variances of
+X and Z). When X or Z is multivariate, supply `cov_xz`, `var_x`, and
+`var_z` as matrices.
+
+``` r
 library(Power)
 PowerLinReg(
   beta_x = 1,
@@ -16,15 +28,12 @@ PowerLinReg(
 )
 ```
 
-```
-## [1] 0.781908
-```
+    ## [1] 0.781908
 
-Here `beta_x` is the true coefficient for X, `cov_xz` is the covariance between X and Z, `n` is the sample size, `t1e` is the type I error, `var_resid` is the residual variance of $Y|(X,Z)$, i.e. the variance of $\epsilon$, `var_x` and `var_y` are the variance of X and Y. Note that when either X or Z is a vector, rather than a scalar, `cov_xz`, `var_x`, and `var_z` should be supplied as matrices.
+To find the sample size needed for a target power, use
+`SampleSizeLinReg` (with `max_n` as the upper bound for the search):
 
-To determine the necessary sample size for a target power:
-
-```r
+``` r
 SampleSizeLinReg(
   beta_x = 1,
   cov_xz = 0.5,
@@ -37,9 +46,60 @@ SampleSizeLinReg(
 )
 ```
 
-```
-##    n     power
-## 1 15 0.9183621
+    ##    n     power
+    ## 1 15 0.9183621
+
+### Logistic regression
+
+For the logistic model
+$\mathrm{logit}(\pi) = \beta_0 + X\beta_X + Z\beta_Z$ with
+$\pi = P(Y=1 \mid X, Z)$, the function `PowerLogisticReg` computes the
+power to reject $H_0: \beta_X = 0$ using the asymptotic Wald test. The
+distribution of $(X, Z)$ is assumed multivariate normal with mean zero
+and covariance given by `var_x`, `var_z`, and `cov_xz`. The expected
+information is approximated by Gauss–Hermite quadrature (default when
+dimension is small) or Monte Carlo.
+
+**Arguments:** `beta_0` (intercept), `beta_x` and `beta_z` (true
+coefficients), `var_x`, `var_z`, `cov_xz` (covariance of X and Z), `n`
+(sample size), `t1e` (type I error). Use `method = "quadrature"` or
+`"montecarlo"` to choose the approximation; `n_quad` and `n_sim` control
+accuracy.
+
+``` r
+PowerLogisticReg(
+  beta_0 = 0,
+  beta_x = 0.5,
+  beta_z = 0.2,
+  var_x = 1,
+  var_z = 1,
+  cov_xz = 0.2,
+  n = 200,
+  t1e = 0.05,
+  method = "quadrature",
+  n_quad = 15L
+)
 ```
 
-Here `max_n` is an upper bound on the sample size, and `power` is the target power.
+    ## [1] 0.885914
+
+To find the sample size for a target power, use `SampleSizeLogisticReg`:
+
+``` r
+SampleSizeLogisticReg(
+  beta_0 = 0,
+  beta_x = 0.5,
+  beta_z = 0.2,
+  var_x = 1,
+  var_z = 1,
+  cov_xz = 0.2,
+  max_n = 500,
+  power = 0.85,
+  t1e = 0.05,
+  method = "quadrature",
+  n_quad = 15L
+)
+```
+
+    ##     n     power
+    ## 1 180 0.8514476

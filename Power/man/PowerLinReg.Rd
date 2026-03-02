@@ -9,7 +9,7 @@ PowerLinReg(beta_x, cov_xz, n, t1e = 0.05, var_resid, var_x, var_z)
 \arguments{
 \item{beta_x}{True regression coefficient for X, vector.}
 
-\item{cov_xz}{Covariance of of X and Z, matrix.}
+\item{cov_xz}{Covariance of X and Z, matrix.}
 
 \item{n}{Sample size.}
 
@@ -26,5 +26,13 @@ Numeric power.
 }
 \description{
 Power for testing \eqn{H_{0}:\beta_{X} = 0} in the linear model
-\eqn{Y ~ X + Z}. All variables (X, Y, Z) are assumed centered.
+\eqn{Y \sim X + Z}. All variables (X, Y, Z) are assumed centered.
+}
+\details{
+Power is computed using the non-central chi-squared distribution
+under the Wald test. For multivariate X, the test has \code{nrow(var_x)}
+degrees of freedom.
+}
+\seealso{
+\code{\link{SampleSizeLinReg}} for sample size given a target power.
 }

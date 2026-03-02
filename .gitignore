@@ -1,0 +1,7 @@
+# R session history (any directory)
+.Rhistory
+
+# Derivations: only track .tex and .pdf (ignore .aux, .log, .out, .synctex.gz, etc.)
+Derivations/*
+!Derivations/*.tex
+!Derivations/*.pdf

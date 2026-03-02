@@ -24,7 +24,7 @@ Let $W_{i} = (1, X_{i}, Z_{i})'$ and $\beta = (\beta_{0}, \beta_{X}, \beta_{Z})'
 The log-likelihood for $\beta$ is:
 \begin{align*}
 \ell(\beta) &= \sum_{i=1}^{n}Y_{i} \ln \pi_{i} + (1 - Y_{i}) \ln (1 - \pi_{i}) \\
-&= \sum_{i=1}^{n} Y_{i} e^{W_{i}'\beta} - \ln(1 + e^{W_{i}'\beta}).
+&= \sum_{i=1}^{n} \big\{ Y_{i}\cdot (W_{i}'\beta) - \ln(1 + e^{W_{i}'\beta}) \big\}.
 \end{align*}
 
 The score equation for $\beta$ is:
@@ -94,7 +94,7 @@ Using block inversion, the asymptotic variance of $\beta_{X}$ is:
 
 The Wald test of $H_{0}: \beta_{X} = 0$:
 \begin{align*}
-T_{W} = n \cdot \hat{\beta}_{X}'(i_{\beta_{X}\beta_{X}'} - i_{\beta_{X}\gamma'} i_{\gamma\gamma'}^{-1}i_{\gamma\beta_{X}'}\big)\hat{\beta}_{X}.
+T_{W} = n \cdot \hat{\beta}_{X}'\big(i_{\beta_{X}\beta_{X}'} - i_{\beta_{X}\gamma'} i_{\gamma\gamma'}^{-1}i_{\gamma\beta_{X}'}\big)\hat{\beta}_{X}.
 \end{align*}
 
 

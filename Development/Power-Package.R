@@ -3,23 +3,23 @@ library(devtools)
 library(roxygen2)
 
 # Creates package
-# usethis::create_package("Power")
-setwd("~/Documents/Lab/Projects/Power/Power/")
+base_dir <- "~/Documents/Lab/Projects/Power/"
+pkg_dir <- file.path(base_dir, "Power")
 
 # Generates RcppExports
 # pkgbuild::compile_dll(force = TRUE)
 
-## Documents package
+# Document package
+setwd(pkg_dir)
 document()
 
 # Install
-setwd("~/Documents/Lab/Projects/Power/")
-devtools::install(
-  pkg = "Power", 
-  reload = TRUE, 
-  quick = TRUE, 
-  upgrade = "never"
-)
+setwd(base_dir)
+devtools::install(pkg = "Power", reload = TRUE)
+
+# Test.
+setwd(pkg_dir)
+devtools::test()
 
 # Check package
 # devtools::check()

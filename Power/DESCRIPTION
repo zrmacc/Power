@@ -1,21 +1,31 @@
 Package: Power
 Title: Power Calculations
-Version: 0.0.1
+Version: 0.0.2
+Author: Zachary McCaw [aut, cre]
+Maintainer: Zachary McCaw <zmccaw@alumni.harvard.edu>
 Authors@R: 
     person(given = "Zachary",
            family = "McCaw",
            role = c("aut", "cre"),
            email = "zmccaw@alumni.harvard.edu",
            comment = c(ORCID = "0000-0002-2006-9828"))
-Description: Power calculations.
-Imports:
-    Rcpp,
-    stats
-LinkingTo: 
-	Rcpp,
- 	RcppArmadillo
+Description: Power and sample-size calculations for regression models.
+    Supports linear regression (Y ~ X + Z) and logistic regression with
+    centered covariates. Computes power for Wald tests of H0: beta_X = 0
+    and finds sample size for a target power via numerical search.
 License: GPL-3
 Encoding: UTF-8
-LazyData: true
+Imports:
+  Rcpp,
+  statmod,
+  stats
+LinkingTo: 
+  Rcpp,
+  RcppArmadillo
+Suggests: 
+  testthat (>= 3.0.0)
+Config/testthat/edition: 3
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.1
+RoxygenNote: 7.3.3
+URL: https://github.com/zrmacc/Power
+BugReports: https://github.com/zrmacc/Power/issues
